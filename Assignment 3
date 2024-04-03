@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jun 11 17:21:10 2020
+
+@author: jamesdowning
+"""
+
+
+# =============================================================================
+#  (1) In assignment 1, we wrote statements that extracted the third word from a phrase.  
+# We can do it much better now that we have loop technology at our disposal.  
+# Write a program that inputs a phrase and a word number.  
+# Print the requested word to the console.
+# 
+# =============================================================================
+
+# create an index
+# loop through and check if index equals input number. If it does print. 
+
+phrase = input('Question 1: PLease enter a phrase: ')
+wordNumber = int(input('Please enter a number. I will extract the corresponding word from your phrase: '))
+charCounter = 0
+word = ''
+
+for ch in range(0, len(phrase)):
+	if phrase[ch] == ' ':
+		charCounter += 1
+		
+
+	if (wordNumber - 1) == charCounter:
+		word += phrase[ch]
+		
+
+	if charCounter > wordNumber:
+		break
+
+
+if word == '':
+	print('Sorry but that word does not exist in the phrase.')
+else:
+	print("Word number " + str(wordNumber) + " in your phrase is: " + word[1:])
+    
+# (2)  Write the decrypt function for the rail fence cipher given in the videos. 
+# It should decode a message that is encrypted.
+
+railFence_phrase = "It was a period of civil war"
+
+odd = ''
+even = ''
+decrpyt = ''
+
+for i,ch in enumerate(railFence_phrase):
+    
+    if i % 2 == 0:
+        even += ch
+
+    else:
+        odd += ch
+        
+encryptedPhrase1 = odd + even
+        
+print("Here is your encrypted phrase: " + encryptedPhrase1)
+        
+    
+if len (odd) >= len(even):
+    maximum = len(odd)
+else:
+    maximum = len(even)
+
+    
+for i in range(maximum):
+    if i > len(even)-1:
+        decrpyt += odd[i]
+    if i > len(odd)-1:
+        decrpyt =+ even[i]
+    else:
+        decrpyt+= even[i] + odd[i]
+
+print("Your decrypted phrase is: " + decrpyt)
+
+# =============================================================================
+# (3)  Design a press-your-luck type of simple economic simulator.
+# It consits of an agent who moves along a track and increases or decreases his wallet.
+# Begin the wallet at 5.  Represet the track by a string that has blank spaces, +, -, and X symbols.
+# An example track might be
+#
+#                               track = ‘     + +   --- X + -  X   +   --- +++    XXX        ‘
+#
+#
+# The agent will begin at index 0 of the track.
+# Each round the agent will move along the track a number of spaces equal to the roll of two dice.
+# If the agent lands on a +, then 2 is added it the wallet.
+# If the agent lands on a -, then 2 is subtracted from the wallet.
+# If the agent lands on an X, then 10 is subtracted from the wallet and the simulation ends.
+# After each roll, the user should be asked if they would like to roll again or exit with their current earnings.
+#
+# At the end of the simulation, print the total earnings and the total number of rolls.
+# =============================================================================
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jun 13 15:49:39 2020
+
+@author: jamesdowning
+"""
+import random
+
+print("Question 3: Press-your-luck economic simulator")
+
+wallet = 5
+track = '     + +   --- X + -  X   +   --- +++    XXX        '
+
+track_length = len(track)-1
+
+position = 0
+dice1_min = 1
+dice1_max = 6
+dice2_min = 1
+dice2_max = 6
+rolls = 0
+total_moves = 0
+
+game_over = False
+
+while game_over == False:
+    print("Do you want to roll the dice or exit with your current earnings?")
+    playerAnswer = input("Please enter 'yes' to continue playing or 'no' to exit: ")
+    if playerAnswer == 'yes':
+        rolls += 1
+        dice_roll1 = random.randint(dice1_min, dice1_max)
+        dice_roll2 = random.randint(dice2_min, dice2_max)
+        total_dice_roll = dice_roll1 + dice_roll2
+
+        position = position + total_dice_roll
+        total_moves = total_moves + total_dice_roll
+
+        while position > track_length:
+          position = position - track_length
+
+        print("You have rolled a " + str(total_dice_roll) + ". You will now move " + str(total_dice_roll) + " places.")
+        print("Your new position on the board is on this character: " + str(track[position]))
+        print("You have rolled the dice " + str(rolls) + " times.")
+        print("You have moved a total of: " + str(total_moves) + " positions." )
+    else:
+        print("Game Over! Your total balance is : "+ str(wallet) + "." + " You rolled the dice " + str(rolls) + " times.")
+        game_over = True
+
+    if track[position] == '+':
+        wallet += 2
+        print('Wallet balance is now: '+ str(wallet))
+
+    if track[position] == '-':
+        wallet-= 2
+        print('Wallet balance is now: '+ str(wallet))
+    if track[position] == 'X':
+        wallet -= 10
+        print('Game Over! Your total balance is : '+ str(wallet) + "." + " You rolled the dice " + str(rolls) + " times.")
+        game_over = True
+   
+
+
