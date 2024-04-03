@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 11 10:33:45 2020
+
+@author: jamesdowning
+"""
+
+# (1)  Set up a list of numbers such as
+# 
+#                               data = [4, 3, 8, 9, 1, 2, 3, 8, 5, 6, 1, 9]
+# 
+# (a)  Print the elements of data to the console.  Note that print(data) will print the elements as a single unit.  Instead of doing that, use a for loop and print each element individually.
+# 
+# (b)  Find the sum of the numbers is data that are even
+# 
+# (c)  Find the sum of the elements of data with odd indices
+# 
+# (d)  You can use max(data) to compute the largest value in a vector.  It’s good for us to be able to write our own tools, however.  Write a few statements that will compute the maximum value of data without using the max function.
+import math
+import random
+
+data = [4, 3, 8, 9, 1, 2, 3, 8, 5, 6, 1, 9]
+# (a)  Print the elements of data to the console.  
+# Note that print(data) will print the elements as a single unit.  
+# Instead of doing that, use a for loop and print each element individually.
+print("question 1,a: these are the integers in your list: " )
+for num in range(len(data)):
+    print(data[num])
+# (b)  Find the sum of the numbers is data that are even.
+totalEven = []
+
+for num in data:
+    if num % 2 == 0:
+        totalEven.append(num)
+        totalEvenSum = sum(totalEven)
+print("This is the sum of all even integers in your list: " + str(totalEvenSum))
+# (c)  Find the sum of the elements of data with odd indices.
+oddIndices = [] 
+
+for num in range(0, len(data)): 
+    if num % 2 != 0:
+        oddIndices.append(data[num]) 
+        oddIndiciesSum = sum(oddIndices)
+print("The total sum of the values in your list with odd indicies is: " + str(oddIndiciesSum))
+# It’s good for us to be able to write our own tools, however.  
+# Write a few statements that will compute the maximum value of data without using the max function.
+
+#statement one: using "sort".
+data.sort()
+print("Using the sort function, the longest value in the data set is: " + str(data[11]))
+
+#statement 2: using a function with a ridiculously long if statement.
+max = 0
+
+def defineMax(data):
+    if data[0] >= data[1]:
+        max = data[0]
+    else:
+        max = data[1]
+    if max <= data[2]:
+        max = data[2]
+    if max <= data[3]:
+        max = data[3]
+    if max <= data[4]:
+        max = data[4]
+    if max <= data[5]:
+        max = data[5]
+    if max <= data[6]:
+        max = data[6]
+    if max <= data[7]:
+        max = data[7]
+    if max <= data[8]:
+        max = data[8]
+    if max <= data[9]:
+        max = data[9]
+    if max <= data[10]:
+        max = data[10]
+    if max <= data[11]:
+        max = data[11]
+        
+    return max
+
+max = defineMax(data)
+print("Using a massive if statement, the maximum value is " + str(max))
+#statement 3: using a for loop.
+max = 0
+
+for num in data:
+    if num > max:
+        max = num
+        
+print("Using a for loop, the largest value in the data set is " + str(max))
+    
+# (2)  Ask the user to enter positive numbers and store them all in a list.  The user should enter -1 when they are finished entering numbers.
+# 
+#                (a)  Compute the average of the numbers the user entered.
+# 
+#                (b)  Compute the standard deviation of the numbers entered.
+listTwo = []
+listTwoValues= ''
+listStandardDeviation = 0.0
+listThree = []
+
+while listTwoValues != -1:
+    listTwoValues = int(input("Please enter positve numbers that I will store in a list. Please enter '-1' when you are finished entering values: "))
+    listTwo.append(listTwoValues)
+listTwo.pop(-1)
+print("These values have been entered in your list: " + str(listTwo))
+averageOfValuesInListTWo = sum(listTwo) / len(listTwo)
+print("The average of the values you entered is: " + str(averageOfValuesInListTWo))
+
+for num in listTwo:
+    num = (num - averageOfValuesInListTWo)**2
+    listThree.append(num)
+averageValuesInListThree = sum(listThree) / len(listThree)
+print("The standard deviation of your values is " + str(math.sqrt(averageValuesInListThree)))
+
+# (3)  Ask the user for how many dice they want to roll and create a list that contains random rolls of that many dice.  (Remember we can use random.randint(1,6) to simulate rolling a die.)
+# 
+# (a)  Print the dice in random order.  That is, randomly pick one of the rolls from the list, print it, and then remove it from the list.  Repeat this until the list is empty. 
+# 
+# If the list is called rolls, you can set up a loop using
+# 
+#                                              while rolls:
+# 
+# and this will run until there is nothing left in the list. 
+diceRollList = []
+diceRoll = random.randint(1,6)
+randomRoll = ''
+
+howManyRolls = int(input("Welcome to the dice rolling game. How many times would you like to roll the dice?: "))
+print("You have chosen to roll the dice " + str(howManyRolls) + " times.")
+
+while howManyRolls != 0:
+    diceRollList.append(random.randint(1,6))
+    howManyRolls -= 1
+while len(diceRollList) != 0:
+    randomRoll = random.choice(diceRollList)
+    print("You have rolled a " + str(randomRoll))
+    diceRollList.remove(randomRoll)
