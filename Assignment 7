@@ -1,0 +1,168 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 25 15:34:35 2020
+
+@author: jamesdowning
+"""
+
+
+# =============================================================================
+# Following the second Data Files video, read in from the grades_213.txt file and perform the following analyses on the grades:
+# 
+# (1)  compute the average of the final grades in the course
+# 
+# (2)  build a list containing each student’s average exam grade
+# 
+# (3)  build a list containing, for each student, which of the two projects received the higher grade
+# 
+# (4) build a list containing each student’s average homework grade. compute the average by dropping the lowest score for each student and averaging the remaining five grades.
+# 
+# 
+# Finally, extract the first and last names for all the students and store them in their own lists called first_name and last_name.  Then create a list of 50 new full names by randomly combining a first_name and a last_name from the two lists.  Print the new names to the console.
+# =============================================================================
+
+# (1)  compute the average of the final grades in the course
+
+in_file = open('grades_213.txt', 'r')
+lines_to_access = in_file.readlines()[2:]
+
+final_grade_data = []
+for line in lines_to_access:
+    line = line.split()
+    final_grade_data.append(float(line[14]))
+
+final_grade_average = sum(final_grade_data)/len(final_grade_data)
+
+print("The average of the final grades in the course is " + str(final_grade_average))
+
+# (2)  build a list containing each student’s average exam grade
+
+exam_grade_data = []
+exam_grade_averages = []
+
+in_file = open('grades_213.txt', 'r')
+
+for line in in_file:
+    line = line.split()
+    exam_grade_data.append(line)
+    
+exam_grade_data.pop(0)
+exam_grade_data.pop(0)
+exam_grade_data.pop(len(exam_grade_data)-1)
+
+for student in exam_grade_data:
+    name = student[0][1:] + ' ' + student[1][:-1]
+    student.pop(0)
+    student[0] = name
+
+for student in exam_grade_data:
+    for index, grade in enumerate(student[1:-1]):
+        student[index] = float(grade)
+
+grades_sum = sum(student[10:13])
+grades_length = len(student[10:13])
+exam_grade_averages.append(grades_sum / grades_length)
+
+print("The average exam grades for the class are: " + str(exam_grade_averages))
+
+# (3)  build a list containing, for each student, which of the two projects received the higher grade
+
+in_file = open('grades_213.txt', 'r')
+
+project_grades = []
+highest_project_grade = []
+
+for line in in_file:
+    project_grades.append(line.split())
+    
+project_grades.pop(0)
+project_grades.pop(0)
+project_grades.pop(len(project_grades)-1)
+
+for student in project_grades:
+    name = student[0][1:] + ' ' + student[1][:-1]
+    student.pop(0)
+    student[0] = name
+
+for student in project_grades:
+    for index, grade in enumerate(student[1:-1]):
+        student[index] = float(grade)
+        
+for student in project_grades:
+    if student[0] >= student[1]:
+        highest_project_grade.append(student[0])
+    else:
+        highest_project_grade.append(student[1])
+
+print("Highest student project grades are: " + str(highest_project_grade))
+
+# (4) build a list containing each student’s average homework grade. compute the average by dropping the lowest score for each student and averaging the remaining five grades.
+in_file = open('grades_213.txt', 'r')
+
+homework_grades = []
+average_homework_grades = []
+
+for line in in_file:
+    homework_grades.append(line.split())
+    
+homework_grades.pop(0)
+homework_grades.pop(0)
+homework_grades.pop(len(homework_grades)-1)
+
+for student in homework_grades:
+    name = student[0][1:] + ' ' + student[1][:-1]
+    student.pop(0)
+    student[0] = name
+
+for student in homework_grades:
+    for index, grade in enumerate(student[1:-1]):
+        student[index] = float(grade)
+        
+for student in homework_grades:
+    average_homework_grades.append(student[2:8])
+
+for i in average_homework_grades:
+    i.sort()
+    i.pop(0)
+    average_homework_grade = sum(i)/len(i)
+    
+print("The average homework grade is" + str(average_homework_grade))
+
+# Finally, extract the first and last names for all the students and store them in their own lists 
+# called first_name and last_name.  
+# Then create a list of 50 new full names by randomly combining a first_name and a last_name from the two lists.  Print the new names to the console.
+import random
+
+in_file = open('grades_213.txt', 'r')
+
+names = []
+first_name = []
+last_name = []
+random_names = []
+
+for line in in_file:
+    names.append(line.split())
+    
+names.pop(0)
+names.pop(0)
+names.pop(len(names)-1)
+    
+
+for student in names:
+    first_name.append(student[0])
+    last_name.append(student[1])
+
+random.shuffle(first_name)
+random.shuffle(last_name)
+
+for name in first_name: 
+    random_names.append(name)
+
+for name in last_name:
+    random_names.append(name)
+
+random.shuffle(random_names)
+
+print(random_names)
+        
