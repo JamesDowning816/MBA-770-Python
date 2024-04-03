@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jun  6 16:15:20 2020
+
+@author: jamesdowning
+"""
+import math
+
+# =============================================================================
+# Have the user input three numbers and store them in variables called cost, benefit, and risk. 
+# 
+#(a)  Output “Go” if cost is greater than benefit and risk is less than 50.
+# 
+#(b) Output “Hold” if cost is greater than 80% of benefit and risk is less than 70.
+# 
+#(c) Output “Blue” if cost is less than 10 or risk is less than 20.
+# 
+#(d) Output “Green” if benefit is greater than 50 and neither cost nor risk are greater
+# 
+#than 25.
+# 
+#(c) Output “No” if cost is not greater than 80% of benefit or risk is not less than 70.
+# =============================================================================
+
+
+cost = float(input ("Question 1: Please enter a number for 'cost': "))
+benefit = float(input("Please enter a number for 'benefit': "))
+risk = float(input("Please enter a number for 'risk': "))
+
+if cost > benefit and risk < 50:
+    print("Go")
+
+benefit80 = benefit *.80
+
+if cost > benefit80 and risk < 70:
+    print("Hold")
+    
+if cost < 10 or risk < 20:
+    print("Blue")
+    
+if benefit > 50 and cost < 25 and risk < 25:
+    print("Green")
+    
+if cost < benefit80 or risk > 70:
+    print("No")
+
+
+# =============================================================================
+# 2. Ask the user to enter two names. 
+# 
+# (a) Output which of the two names appears first in alphabetical order. 
+# 
+# (b)  Output which name is longer
+# =============================================================================
+
+name1 = input("Question 2: Please enter a name: " )
+name2 = input("Please enter a second name: ")
+
+if name1 < name2:
+    print(name1 + " comes first in alphabetical order.")
+elif name2 > name1:
+    print(name2 + " comes first in alphabetical order.")
+else:
+    print("These names are the same in terms of alphabetical order.")
+
+
+if len(name1) > len(name2):
+    print(name1 + " is the longer of the two names")
+else:
+    print(name2 + " is the longer of the two names.")
+    
+# =============================================================================
+# 3. Have the user input a time by typing in the hour and the minutes.  
+# Then ask the user for a time interval in minutes.  
+# Add those minutes to the hour and minutes already input and output the new time.  
+# Use 12-hour time.  
+# Remember that if it’s 55 min past the hour and you add 15 min to that 
+# it doesn’t become 70 min past the hour, but only 10 min past the hour.  
+# The % operator will help you do this.
+# =============================================================================
+
+hours = int(input("Please enter a value for hours: "))
+minutes = int(input("Please enter a value for minutes: "))
+additional_minutes = int(input("Please enter an additional value for minutes: "))
+
+total_minutes = minutes + additional_minutes
+minutes_in_an_hour = 60
+
+if total_minutes > minutes_in_an_hour:
+    new_total_minutes = total_minutes / minutes_in_an_hour
+    new_total_minutes = math.floor(new_total_minutes)
+    hours = hours + new_total_minutes
+    too_many_minutes = total_minutes % minutes_in_an_hour
+    total_minutes = too_many_minutes        
+
+elif total_minutes == minutes_in_an_hour:
+    total_minutes = 00
+    hours = hours + 1
+    
+if hours > 12 and hours % 12 != 00:
+    hours = hours % 12
+    hours = round(hours)
+else:
+    hour_selector = hours / 12
+    hours = hours / hour_selector
+    hours = round(hours)
+    
+if hours < 10:
+    hours = str(hours).zfill(2)
+
+if total_minutes < 10:
+    total_minutes = str(total_minutes).zfill(2)
+
+print("The new time is " + str(hours) + ":" + str(total_minutes))
+
+
+# =============================================================================
+# 4.  Let’s continue the online shopping card code from the videos.  
+# The card needs to work with sub_total, shipping, and num_items for the current transaction.  
+# In addition, we’ll have a cart_profile variable which is 
+# our attempt to summarize the kind of items in the cart 
+# (knitting supplies, paiting stuff, automotive parts, etc.) 
+# Suppose we also have customer data in the form of customer_preference and engagement.  
+# When the customer loads up the cart for a purchase, 
+# we can use this data to compute some offers for the customer.  
+# For the purposes of this assignment, 
+# we’ll assume cart_profile and customer_preference are just numbers from 1 to 10 
+# and engagement is a number from 10 to 100.  
+# The offers themselves will be coded as strings. 
+# We will be computing offer and coupon variables.
+# =============================================================================
+
+# =============================================================================
+# (a)  If engagement is less than 40, we’ll consider the following offers:
+# 
+# Give offer ‘free shipping’ if shipping is less than 30, 
+# num_items is no more than 5, and customer_preference matches the cart_profile. 
+# 
+# Give offer ‘next order discounted’ if sub_total is at least 100 and 
+# either shipping is no higher than 50 
+# or num_items is less than 10.  In addition, 
+# if we give this offer then give one of two coupons:  
+# ‘your preferred coupon’ or ‘try new things’ coupon depending on whether 
+# customer_preference matches the cart_profile
+# If engagement is 40 or greater, then we will consider the following offers:
+# Give one of four coupons:  
+# ‘generic coupon’, 
+# ‘thank you for your loyalty’, 
+# ‘you are super-valued’, 
+# and ‘you keep us in business’ 
+# based on the sub_total and engagement levels.  
+# If sub_total is less than 120 and engagement is less than 60, 
+# then give the ‘thank you for your loyalty’ coupon.  
+# If sub_total is less than 180 and engagment less than 80, 
+# then give the ‘you are super-valued’ coupon.  
+# If sub_total is greater than or equal to 180 and engagement is greater than or equal to 80, 
+# then give the ‘you keep us in business’ coupon.  
+# If none of these coupons are given, then give the generic coupon.
+# =============================================================================
+
+cart_profile = input("input a numeric value between 1 and 10 for 'cart profile': ")
+customer_preference = input("Please enter a numeric value between 1 and 10 for 'customer preference': ")
+engagement = input("Please enter a numeric value between 10 and 100 for 'engagement': ")
+
+
+shipping = 29.99
+num_items = 12
+sub_total = 170
+
+if int(engagement) < 40:
+    if int(shipping) < 30 and int(num_items) < 5 and int(customer_preference) == int(cart_profile):
+        print("You get free shipping!")
+    if int(sub_total) >= 100 and shipping <= 50 or num_items < 10:
+        print("You get a discount on your next order!")
+        if int(customer_preference) == int(cart_profile):
+            print("You get a 'preferred coupon'")
+        else: 
+            print("You get a 'try new things' coupon!")
+elif int(engagement) > 40:
+     if int(sub_total) < 120 and int(engagement) < 60:
+         print("You get a 'thank you for your loyalty' coupon")
+     if int(sub_total) < 180 and int(engagement) < 80:
+         print("You get a 'you are super valued' coupon!")
+     if int(sub_total) >= 180 and int(engagement) >= 80:
+         print("You get a 'you keep us in business' coupon!")
+     else: 
+        print("You get a generic coupon!")
+else:
+    print("You have not qualified for any discounts or coupons at all.")
+        
+
+
+
+
+
+
+
+
+
+
+
