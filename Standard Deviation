@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 11 11:09:55 2020
+
+@author: jamesdowning
+"""
+
+import math
+
+# (2)  Ask the user to enter positive numbers and store them all in a list.  The user should enter -1 when they are finished entering numbers.
+# 
+#                (a)  Compute the average of the numbers the user entered.
+# 
+#                (b)  Compute the standard deviation of the numbers entered.
+
+
+listTwo = []
+listTwoValues= ''
+listStandardDeviation = 0.0
+averageOfValuesInListTwo = ''
+
+while listTwoValues != -1:
+    listTwoValues = int(input("Please enter positve numbers that I will store in a list. Please enter '-1' when you are finished entering values: "))
+    listTwo.append(listTwoValues)
+listTwo.pop(-1)
+print("These values have been entered in your list: " + str(listTwo))
+
+for num in listTwo:
+    averageOfValuesInListTwo += num
+    print(sum(averageOfValuesInListTwo))
+print("The average of the values you entered is: " + str(averageOfValuesInListTwo))
+
+
+for num in listTwo:
+    listStandardDeviation += (float(num) - float(averageOfValuesInListTwo))**2
+    listStandardDeviation = math.sqrt(listStandardDeviation / float(len(listTwo)-1))
+print("The standard deviation of the values you enetered is: " + str(listStandardDeviation))
