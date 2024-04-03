@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jun 29 18:22:31 2020
+
+@author: jamesdowning
+"""
+
+# =============================================================================
+#   Let’s revisit encryption and use functions to make the code more readable and maintainable.  
+#   Prompt the user to enter a phrase and then either encrypt or decrypt the phrase.  
+#   If it’s to be encrypted, further ask if it is to use the rail fence or the substitution cipher.  
+#   Then, perform the requested action and ask the user if another phrase is to be entered.  
+#   If yes, then repeat the entire program.  If no, then exit.  
+#   For each action: decrypt, encrypt with rail fence, or encrypt with substitution, 
+#   call a function and put the code to do each thing in the function.  
+#   We’ve already written the code for these, and you may either use what you wrote in the 
+#   appropriate assignments or use my code from the solutions and videos.  
+#   The goal of this is not to think about the encryption itself 
+#   but rather to build the menu system (using loops and if statements) and to get practice setting up and 
+#   calling functions to help us organize and reuse our code.
+# =============================================================================
+ 
+ 
+#Function to encrypt a given phrase using rail fence, using code from video.  
+def railFenceEncryption(phrase):
+    odd = ''
+    even = ''
+    for i,ch in enumerate(phrase):
+        if i % 2 == 0:
+            even += ch
+        else:
+            odd += ch
+    ciphertext = even + odd
+    return ciphertext
+
+#Function to decrypt a railfence encrypted phrase, using code from the solution.
+def railFenceDecryption(phrase):
+    ciphertext = phrase
+    plaintext = ''
+    halfway = len(ciphertext) // 2
+    if len(ciphertext) % 2 == 1:
+        halfway += 1
+    even = ciphertext[:halfway]
+    odd = ciphertext[halfway:]
+    for i in range(len(odd)):
+        plaintext += even[i]
+        plaintext += odd[i]
+    
+    if len(even) > len(odd):
+        plaintext += even[-1]
+    return plaintext
+
+#Function to encrypt a given phrase using substituion method, using code from the video.
+def substitutionEncryption(phrase):
+    alphabet = 'abcdefghijklmnopqurstuvwxyz'
+    key = 'qwertyuiopasdfghjklzxcvbnm'
+    phrase = phrase.lower()
+    ciphertext=''
+    for ch in phrase:
+        if ch == ' ':
+            ciphertext += ch
+        else:
+            sub_index = alphabet.find(ch)
+            ciphertext += key[sub_index]
+    return ciphertext
+
+#Function to decrypt a given substituion-encrypted phrase.
+def substitutionDecryption(phrase):
+    alphabet = 'abcdefghijklmnopqurstuvwxyz'
+    key = 'qwertyuiopasdfghjklzxcvbnm'
+    phrase = phrase.lower()
+    nonCipherText = ''
+    ciphertext = phrase
+    for ch in ciphertext:
+        if ch == ' ':
+            nonCipherText += ch
+        else:
+            sub_index = key.find(ch)
+            nonCipherText += alphabet[sub_index]
+    return nonCipherText
+
+enterAnotherPhrase = 'Yes'
+
+while enterAnotherPhrase == "Yes":
+    phrase = input("Question 1: Please enter a phrase: ")
+    encryptOrDecrypt = input("Would you like to encrypt or decrypt this phrase? Please enter either 'Encrypt' or 'Decrypt': ") 
+    if encryptOrDecrypt == "Encrypt":
+        cipherType = input("How would you like to encrypt your phrase? Please enter 'railFence' or 'substitution'.")
+        if cipherType == "railFence":
+            print("Your railFence encrypted phrase is: " + railFenceEncryption(phrase))
+        elif cipherType == "subtitution":
+            substitutionEncryption(phrase)
+            print("Your substituion encrypted phrase is: " + substitutionEncryption(phrase))        
+    elif encryptOrDecrypt == "Decrypt":
+        cipher = input("For your decrypted phrase, please enter 'railFence' or 'substitution'")
+        if cipher == "railFence":
+            print("Your railFence decrypted phrase is: " + railFenceDecryption(phrase))
+        elif cipher == "substitution":
+            substitutionDecryption(phrase)
+            print("Your substitution encrypted phrase is: " + substitutionDecryption(phrase))
+            
+    enterAnotherPhrase = input("Do you wish to enter another phrase? Please enter 'Yes' or 'No': ")
+    
+    # =============================================================================
+# Let’s revisit the track game from the last assignment.  
+# You may look at the solution code I posted and use it as a starting point if you had trouble with yours. 
+#  What we want to do is rebuild the game using functions.  
+#  Inside the while not game_over loop, you should have the following functions:  
+#      get_roll, 
+#      update_position, 
+#      update_wallet, 
+#      check_for_game_over, 
+#      and prompt_for_another_turn.  
+#      If the user opts not to take another turn, 
+#      print the results of the game (number of turns and wallet value) upon exiting the game.  
+#      Your task is to 
+#      (1) figure out the parameters required for each function, 
+#      (2) put the appropriate code inside each function 
+#      (note that the code already exists so it’s not a matter of figuring out how to write the game but rather 
+#       it’s about figuring out how to better organize it), and (3) get the thing to work.
+# 
+# If you can think of a better way to organize via functions than what I have outlined, 
+#please drop a note about what you think is the benefit of your method and go for it.  
+#So much of programming is about design choices and to develop as a programmer it’s crucial for you to develop a personal design sensibility.  
+# So, I encourage that.
+# =============================================================================
+
+import random
+
+#Return results of a dice roll.
+def get_roll():
+    roll = random.randint(1,6) + random.randint(1,6)
+    return roll
+
+#Return updated position on track after dice roll.
+def update_position(position, roll, track_length):
+    position = (position + roll) % track_length
+    return position
+
+#Update wallet based on new track position, return updated wallet. 
+def update_wallet(track, position, wallet):
+    if track[position] == '+':
+        print('Your wallet increases by 2.')
+        wallet += 2
+    elif track[position] == '-':
+        print('Your wallet decreases by 2.')
+        wallet -= 2
+    elif track[position] == 'X':
+        print('Your wallet decreases by 10.')
+        print('You landed on "X", the game is automatically ending...')
+        wallet -= 10
+
+        if wallet < 0:
+            wallet = 0
+
+    return wallet
+
+#Check if user is in game over state.
+def check_for_game_over(track, wallet, position):
+    if wallet <= 0 or track[position] == 'X':
+        game_over = True
+        return game_over
+    else:
+        game_over = False
+        return game_over
+    
+#If user is not in game over state, ask them if they want to roll again. If not, return game over. 
+def prompt_for_another_turn():
+    choice = input("Would you like to roll again (y/n)? ")
+
+    game_over = False
+    if choice == 'n':
+        game_over = True
+    elif choice == 'y':
+        game_over = False
+
+    return game_over
+
+#Initialize variables
+track = '     + +   --- X + -  X   +   --- +++    XXX        '
+track_length = len(track)
+position = 0
+wallet = 5
+number_of_rolls = 0
+game_over = False
+current_roll = 0
+total_rolls = 0
+
+print("Question 2: Welcome to the MBA 770 dice roller game, this time using functions.")
+print("Your starting position is on this character: " + track[position])
+print("You currently have " + str(wallet) + " dollars in your wallet.")
+
+while game_over == False:
+
+    current_roll = get_roll()
+    
+    total_rolls +=1
+
+    print("You have rolled a: " + str(current_roll))       
+    
+    position = update_position(position, current_roll, track_length)
+    wallet = update_wallet(track, position, wallet)
+    game_over = check_for_game_over(track, wallet, position)
+
+    if not game_over:
+        print("You are currently on position " + str(position) + " of the track, at: " + track[position])
+        print('Your wallet is now ' + str(wallet))
+
+        game_over = prompt_for_another_turn()
+
+
+print("Game Over! Your total balance is: " + str(wallet) + "." + " You rolled the dice " + str(current_roll) + " times.")
