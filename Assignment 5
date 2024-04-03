@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul  4 13:19:22 2020
+
+@author: jamesdowning
+"""
+
+
+# =============================================================================
+# Let’s get some more practice with functions.  
+# Write a program to update financial account information.  
+# Declare variables savings and checkings to represent balances in two accounts.  
+# Write a menu system that gives the user the choice to select from a number of options:  
+# 1. deposit, 
+# 2. withdraw, 
+#3. transfer, 
+#4. view balances, 
+#5. close accounts, 
+#6. exit.  
+# For each option, write a funtion to handle the details.  
+# You will have to pass the appropriate variables to the functions and return a new value in order for the functions to work.  
+# The menu should be in a while loop that has if statements to handle the menu options.
+# 
+# If deposit is selected, then further select whether to deposit into checking or savings.  
+# Query the user for an amount and increment the appropriate balance. 
+# 
+# If withdraw is selected, also further select whether to withdraw from checking or savings.  
+# Query the user for an amount, perform data validation to make sure the account has enough funds to process the withdrawal, and then decrement the account balance.
+# 
+# To transfer, ask whether to transfer from savings to checking or from checking to savings.  
+# Then ask for how much to transfer, validate that the account has enough, and decrement and update appropriately.
+# 
+# To view balances, simply print the value of checking and savings to the console.
+# 
+# To close the accounts, set both balances to zero.
+# 
+# The final option will exit the menu system.
+# =============================================================================
+
+#Declare variables savings and checkings to represent balances in two accounts. 
+
+savings = 0
+checkings = 0
+
+# If deposit is selected, then further select whether to deposit into checking or savings.  
+# Query the user for an amount and increment the appropriate balance.
+def deposit(amount):
+    depositAction = input("would you like to deposit into checking or savings? (checking / savings):" )
+    if despositAction == 'savings':
+        int(amount) = input("Please enter a numerical value to enter into your savings account: ")
+        savingsValue = savings
+        savingsValue += amount
+        return("Your savings balance is now: " + str(savingsValue) + ".")
+    else:
+        int(amount) = input("Please enter a numerical value to enter to withdraw from your checking account: ")
+        checkingValue = checkings
+        checkingValue += amount
+        return("Your checkings balance is now: " + str(checkingsValue) + ".")
+# If withdraw is selected, also further select whether to withdraw from checking or savings.  
+# Query the user for an amount, perform data validation to make sure the account has enough funds to process the withdrawal, and then decrement the account balance.
+def withdraw(amount):
+    insufficientFunds = print("You have insuficcient funds to complete this transaction.")
+    withdrawAction = input("From which account would you like to withdraw? (checkings / savings): ")
+    if withdrawAction == 'checkings':
+        int(amount) = input("Please enter a numerical value you wish to withdraw from checkings: ")
+        checkingsValue = checkings
+        if checkingsValue >= amount:
+            checkingsValue -= amount
+            return("Your checkings balance is now: " + str(checkingsValue) +".")
+        else:
+            return(insufficientFunds)
+    else:
+        int(amount) = input("Please enter a numerical value you wish to withdraw from savings: ")
+        savingsValue = savings
+        if savingsValue >= amount:
+            savingsValue -= amount
+            return("Your savings balance is now: " + savingsValue +".")
+        else:
+            return(insufficientFunds)
+# To transfer, ask whether to transfer from savings to checking or from checking to savings.  
+# Then ask for how much to transfer, validate that the account has enough, and decrement and update appropriately.
+def transfer(amount):
+    insufficientFunds = print("You have insuficcient funds to complete this transaction.")
+    transferAction = input("From which account do you wish to transfer from (savings / checkings")
+    if transferAction == 'savings':
+        int(amount) = input("please enter a numerical value to transfer from your savings account to checkings: ")
+        savingsValue = savings
+        if savingsValue >= amount:
+            savingsValue -= amount
+            checkingsValue = checkings
+            checkingsValue += amount
+            return("You have transfered: " + str(amount) + "to your Checking Account from Savings. Your Checking Balance is now: " + str(checkingsValue) + ". Your Savings balance is now: " + str(savingsValue) + ".")
+        else:
+            return(insufficientFunds)
+    elif transferAction == 'checkings':
+        int(amount) = input("Please enter a numerical value to transfer from checkings to savings: ")
+        checkingsValue = checkings
+        if checkingsValue >= amount:
+            checkingsValue -= amount
+            savingsValue = savings
+            savingsValue += amount
+            return("You have transfered " + str(amount) + "To your savings. Your savings balance is now: " + str(savingsValue) + "Your checking balance is now: " + str(checkingsValue)+ "." )
+        else:
+            return(insufficientFunds)
+# To view balances, simply print the value of checking and savings to the console.
+def viewBalances():
+        return("Your checkings balance is: " + str(checkings) + ". Your savings balance is: " + str(savings))
+# To close the accounts, set both balances to zero.
+def closeAccounts():
+    closeAccountsForReal = input("Do you wish to close your accounts? yes / no: ")
+    if closeAccountsForReal == 'yes':
+        checkings = 0
+        savings = 0
+        return("Your accounts are now closed. Your balances are now zero. Have a good time.")
+# The final option will exit the menu system.
+def closeMenu():
+    if userAction == 'exit':
+        exitMenu == True
+        return("you have chosen to exit the menu. Good luck.")
+
+
+
+
+# Write a menu system that gives the user the choice to select from a number of options:  
+
+exitMenu = False
+
+while exitMenu == False:
+    userAction = input("What would you like to do? (deposit / withdraw / transfer / view balances / close accounts / exit): ")
+    if userAction == 'deposit':
+        deposit(amount)
+    elif userAction == 'withdraw':
+        withdraw(amount)
+    elif userAction == 'transfer':
+        transfer(amount)
+    elif userAction == 'view balances':
+        viewBalances(account)
+    elif userAction == 'close accounts':
+        closeAccounts()
+    else:
+        closeMenu()
+        
+        
+        
+
+
+
+
+
+
+
+
+
